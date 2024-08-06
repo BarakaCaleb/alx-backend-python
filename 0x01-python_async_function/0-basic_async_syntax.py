@@ -1,31 +1,19 @@
 #!/usr/bin/env python3
-"""Import wait_random from the previous python file that you’ve
-written and write an async routine called wait_n that takes in 2
-int arguments (in this order): n and max_delay. You will spawn
-wait_random n times with the specified max_delay.
+"""Write an asynchronous coroutine that takes in an integer argument
+(max_delay, with a default value of 10) named wait_random that waits
+for a random delay between 0 and max_delay (included and float value)
+seconds and eventually returns it.
 
-wait_n should return the list of all the delays (float values).
-The list of the delays should be in ascending order without using
-sort() because of concurrency.
+Use the random module.
 """
 
 
+import random
 import asyncio
-from typing import List
-wait_random = __import__('0-basic_async_syntax').wait_random
 
 
-async def wait_n(n: int, max_delay: int) -> List[float]:
-    """Spawn wait_random n times"""
-    tasks = []
-    delays = []
-
-    for i in range(n):
-        task = wait_random(max_delay)
-        tasks.append(task)
-
-    for task in asyncio.as_completed((tasks)):
-        delay = await task
-        delays.append(delay)
-
-    return delays
+async def wait_random(max_delay: int = 10) -> float:
+    """Wait for some time"""
+    wait_time = random.random() * max_delay
+    await asyncio.sleep(wait_time)
+    return wait_time
